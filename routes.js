@@ -3,7 +3,9 @@ const route = express.Router();
 const token = require("./middlewares/token");
 const loginController = require("./controllers/loginController");
 
-
+route.get("/status", (request, response) => {
+    response.send("OK");
+});
 
 //CONTROLE E ROTEAMENTO DOS ARTIGOS
 const artigoController = require("./controllers/artigoController");
