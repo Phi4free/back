@@ -43,7 +43,7 @@ module.exports.dbDeleteArticle = async (id) => {
 };
 
 module.exports.dbAuthenticator = async (login) => {
-  const user = await User.findOne({ email: login.email, senha: login.senha });
+  const user = await User.findOne({ email: login.email, senha: login.senha }).exec();
   return user ? user._id : -1;
 };
 

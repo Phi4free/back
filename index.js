@@ -4,19 +4,14 @@ const session = require("express-session");
 const uuid = require("uuid").v4;
 const routes = require("./routes");
 const bodyParser = require('body-parser');
-require("dotenv-safe").config({silent: true});
+require("dotenv-safe").config({
+  allowEmptyValues: true,
+  example: './back/.env.example'
+});
 const cors = require("cors")
 const mongoose = require('mongoose');
 //const { connectToDatabase } = require("./middlewares/mongo-db-connection");
 const port = process.env.PORT || 3000
-
-
-//Conectando ao banco MongoDB
-console.log(process.env.URI);
-mongoose
-.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true })
-.then(() => console.log('Connected to MongoDB'))
-.catch(err => console.log(err));
 
 //Instanciando servidor Express
 const app = express();
@@ -40,11 +35,21 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(routes);
 
-//Inicializando servidor
-app.listen(porta = port, () => {
+//Conectando ao banco MongoDB
+console.log(process.env.URI);
+mongoose
+.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => {
+  console.log('Connected to MongoDB')
+  app.listen(porta = port, () => {
     console.log("Servidor executando na porta "
         + porta);
-});
+  });
+})
+.catch(err => console.log(err));
+
+//Inicializando servidor
+
 
 
 
