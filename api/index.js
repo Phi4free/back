@@ -1,16 +1,43 @@
-const app = require("express")();
-const { v4 } = require("uuid");
+//Require de Módulos Necessários
+const express = require("express");
+const session = require("express-session");
+const uuid = require("uuid").v4;
+const routes = require("../routes");
+const bodyParser = require('body-parser');
+require("dotenv-safe").config({silent: true});
+const cors = require("cors")
+const mongoose = require('mongoose');
+//const { connectToDatabase } = require("./middlewares/mongo-db-connection");
+const port = process.env.PORT || 3000
 
-app.get("/api", (req, res) => {
-    const path = `/api/item/${v4()}`;
-    res.setHeader("Content-Type", "text/html");
-    res.setHeader("Cache-Control", "s-max-age=1, stale-while-revalidate");
-    res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
-});
 
-app.get("/api/item/:slug", (req, res) => {
-    const { slug } = req.params;
-    res.end(`Item: ${slug}`);
-});
+//Conectando ao banco MongoDB
+console.log(process.env.URI);
+mongoose
+.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.log(err));
+
+//Instanciando servidor Express
+const app = express();
+
+//Estabelecendo sessão para uso de cookies
+/*app.use(session({
+    genid: (request) => {
+      return uuid();
+    },
+    secret: "Um segredo",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: null }
+}));*/
+
+//Referenciando rotas e pasta pública
+app.use(cors());
+app.use(express.static("./public"));
+app.use(express.urlencoded({extended: true}));
+app.use(bodyParser.json());
+app.use(express.json());
+app.use(routes);
 
 module.exports = app;
