@@ -2,7 +2,7 @@
 const express = require("express");
 const session = require("express-session");
 const uuid = require("uuid").v4;
-const routes = require("./routes");
+const routes = require("../routes");
 const bodyParser = require('body-parser');
 require("dotenv-safe").config();
 const cors = require("cors")
@@ -41,11 +41,11 @@ app.use(express.json());
 app.use(routes);
 
 //Inicializando servidor
-app.listen(porta = port, () => {
-    console.log("Servidor executando na porta "
-        + porta);
-});
+// app.listen(porta = port, () => {
+//     console.log("Servidor executando na porta "
+//         + porta);
+// });
 
-
+module.exports = app;
 
 
