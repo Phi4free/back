@@ -4,7 +4,10 @@ const session = require("express-session");
 const uuid = require("uuid").v4;
 const routes = require("../routes");
 const bodyParser = require('body-parser');
-require("dotenv-safe").config({silent: true});
+require("dotenv-safe").config({
+    allowEmptyValues: true,
+    example: '../.env.example'
+});
 const cors = require("cors")
 const mongoose = require('mongoose');
 //const { connectToDatabase } = require("./middlewares/mongo-db-connection");
