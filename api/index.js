@@ -6,7 +6,7 @@ const routes = require("../routes");
 const bodyParser = require('body-parser');
 require("dotenv-safe").config({
     allowEmptyValues: true,
-    example: './.env.example'
+    example: '/var/task/.env.example'
 });
 const cors = require("cors")
 const mongoose = require('mongoose');
