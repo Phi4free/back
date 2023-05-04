@@ -4,7 +4,7 @@ const session = require("express-session");
 const uuid = require("uuid").v4;
 const routes = require("./routes");
 const bodyParser = require('body-parser');
-require("dotenv-safe").config();
+require("dotenv-safe").config({silent: true});
 const cors = require("cors")
 const mongoose = require('mongoose');
 //const { connectToDatabase } = require("./middlewares/mongo-db-connection");
