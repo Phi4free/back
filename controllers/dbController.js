@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
 const { Article, User } = require('../models/dbModel');
-const { connectToDatabase } = require("../middlewares/mongo-db-connection");
+const { encryptPassword, validatePassword } = require('../middlewares/encryption');
 
 module.exports.dbCreateArticle = async (article) => {
   const newArticle = new Article(article);
@@ -43,15 +42,23 @@ module.exports.dbDeleteArticle = async (id) => {
 };
 
 module.exports.dbAuthenticator = async (login) => {
-  const user = await User.findOne({ email: login.email, senha: login.senha }).exec();
-  return user ? user._id : -1;
+  const user = await User.findOne({ email: login.email }).exec();
+  if (user && await validatePassword(login.senha, user.senha)) {
+    return user._id
+  } else {
+    return -1;
+  }
 };
 
 module.exports.dbCreateUser = async (user) => {
+  aux = user.senha;
+  user.senha = await encryptPassword(aux);
   const newUser = new User(user);
   const savedUser = await newUser.save();
   console.log(`New user created with ID: ${savedUser._id}`);
-  return savedUser ? { message: "OK", savedUser, status: 200 } : { message: "Error creating user", status: 404 };
+  const savedUserObject = savedUser.toObject();
+  savedUserObject.senha = aux;
+  return savedUser ? { message: "OK", savedUserObject, status: 200 } : { message: "Error creating user", status: 404 };
 };
 
 module.exports.dbReadUser = async (id) => {
@@ -65,6 +72,7 @@ module.exports.dbReadUser = async (id) => {
 };
 
 module.exports.dbUpdateUser = async (user) => {
+  user.senha = await encryptPassword(user.senha);
   const updatedUser = await User.findByIdAndUpdate(
     user._id,
     { $set: user, $inc: { __v: 1 } },

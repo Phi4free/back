@@ -13,9 +13,10 @@ module.exports.atualizarPerfilPut = async (request, response, next) => {
 
 module.exports.criarPerfilPost = async (request, response, next) => {
     user = request.body;
-    request.user = await dbCreateUser(user);
+    const result = await dbCreateUser(user);
+    request.user = result.savedUserObject;
     next();
-};
+  };
 
 module.exports.deletarPerfilDelete = async (request, response, next) => {
     id = request.params.id;
