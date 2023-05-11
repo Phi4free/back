@@ -15,6 +15,9 @@ const mongoose = require('mongoose');
 //const { connectToDatabase } = require("./middlewares/mongo-db-connection");
 const port = process.env.PORT || 3000
 
+const dbName = process.env.AMBIENTE === 'PRODUCTION' ? 'phi4free' : 'test';
+process.env.URI = `mongodb+srv://${process.env.DBCREDENTIAL}@cluster-phi4free.ve6mrwp.mongodb.net/${dbName}?retryWrites=true&w=majority`
+
 
 //Conectando ao banco MongoDB
 if (ambiente != 'DEVELOPMENT') {
