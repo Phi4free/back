@@ -4,6 +4,7 @@ const { isLoginPopulated, charLimit, hasValidEmail, runValidationTests } = requi
 
 module.exports.authUser = async (request, response) => {
     let login = new Login(request.user || request.body);
+    console.log(request.headers.language)
 
     const tests = [
         isLoginPopulated,
