@@ -1,5 +1,5 @@
-const token = require("../middlewares/token");
 const { dbAuthenticator } = require("../controllers/dbController");
+const util = require('util');
 
 class Login {
     email; senha;
@@ -17,6 +17,7 @@ class Login {
     }
 
     async getToken() {
+        //console.log("getToken().this: " + util.inspect(this));
         let id = await dbAuthenticator(this);
         if (id == -1) {
             return {auth: false, message: "Invalid login credentials", status: 401};

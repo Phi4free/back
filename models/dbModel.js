@@ -75,7 +75,10 @@ const UserSchema = new mongoose.Schema({
       type: Number,
       default: 0
     },
-    notas: [NotaSchema]
+    notas: {
+      type: [NotaSchema],
+      default: []
+    }
 });
 
 UserSchema.pre('save', function(next) {

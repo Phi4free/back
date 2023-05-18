@@ -50,7 +50,16 @@ module.exports.dbAuthenticator = async (login) => {
   }
 };
 
+module.exports.isEmailInUse = async (object) => {
+  const email = object.email;
+  const user = await User.findOne({ email });
+  return !!user; // Returns true if user exists, false otherwise
+}
+
 module.exports.dbCreateUser = async (user) => {
+  if (await this.isEmailInUse(user)) {
+    return { message: "This e-mail is already in use", status: 400 }
+  }
   aux = user.senha;
   user.senha = await encryptPassword(aux);
   const newUser = new User(user);
@@ -63,23 +72,40 @@ module.exports.dbCreateUser = async (user) => {
 
 module.exports.dbReadUser = async (id) => {
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id).select('-senha'); // Exclude the 'senha' field
     return user ? { message: "OK", user, status: 200 } : { message: "User not found", status: 404 };
   } catch (err) {
-    const user = undefined;
-    return user ? { message: "OK", user, status: 200 } : { message: "User not found", status: 404 };
+    console.log(err);
+    return { message: "User not found", status: 404 };
   }
 };
 
 module.exports.dbUpdateUser = async (user) => {
   user.senha = await encryptPassword(user.senha);
+  
+  const existingUser = await User.findById(user._id);
+  if (!existingUser) {
+    return { message: "Existing user not found", status: 404 };
+  }
+  
+  // Check if the new email is different from the original
+  if (user.email !== existingUser.email) {
+    // Check if the new email is already in use
+    const emailInUse = await User.exists({ email: user.email });
+    if (emailInUse) {
+      return { message: "Email is already in use", status: 400 };
+    }
+  }
+  
   const updatedUser = await User.findByIdAndUpdate(
     user._id,
     { $set: user, $inc: { __v: 1 } },
     { new: true }
   );
-  return updatedUser ? { message: "OK", updatedUser, status: 200 } : { message: "User not found", status: 404 };
+  
+  return updatedUser ? { message: "OK", updatedUser, status: 200 } : { message: "Updated user not found", status: 404 };
 };
+
 
 module.exports.dbDeleteUser = async (id) => {
   const result = await User.deleteOne({ _id: id });
