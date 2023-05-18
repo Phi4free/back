@@ -1,5 +1,5 @@
 function isUserPopulated(object) {
-    const requiredProperties = ["nome", "email", "senha", "numArt", "notas"];
+    const requiredProperties = ["nome", "email", "senha"];
   
     for (const property of requiredProperties) {
       if (!(property in object)) {
