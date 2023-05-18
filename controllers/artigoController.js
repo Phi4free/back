@@ -1,4 +1,3 @@
-const { request, response } = require("express");
 const { 
     dbCreateArticle,
     dbReadArticle,
@@ -21,25 +20,60 @@ module.exports.criarArtigoPost = async (request, response, next) => {
     const artigo = request.body;
     artigo.autorId = request.id;
     //dbCreateArticle(user, artigo);
-    response.send(await dbCreateArticle(artigo));
+    try {
+        const result = await dbCreateArticle(artigo);
+        response.status(result.status).send({ message: result.message, data: result.savedArticle });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send({ message: 'Internal Server Error' });
+    }
+      
 };
 
 module.exports.lerArtigoGet = async (request, response) => {
     const id = request.query.id;
-    response.send(await dbReadArticle(id));
+    try {
+        const result = await dbReadArticle(id);
+        response.status(result.status).send({ message: result.message, data: result.article });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send({ message: 'Internal Server Error' });
+    }
+      
 };
 
 module.exports.listaArtigosGet = async (request, response) => {
-    response.send(await dbListArticles());
+    try {
+        const result = await dbListArticles();
+        response.status(result.status).send({ message: result.message, data: result.articles });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send({ message: 'Internal Server Error' });
+    }
+      
 };
 
 module.exports.updateArtigoPut = async (request, response, next) => {
     const artigo = request.body;
     //artigo.autorId = request.id;
-    response.send(await dbUpdateArticle(artigo));
+    try {
+        const result = await dbUpdateArticle(artigo);
+        response.status(result.status).send({ message: result.message, data: result.updatedArticle });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send({ message: 'Internal Server Error' });
+    }
+      
 };
 
 module.exports.excluirArtigoDelete = async (request, response, next) => {
     const id = request.params.id;
-    response.send(await dbDeleteArticle(id));
+    try {
+        const result = await dbDeleteArticle(id);
+        response.status(result.status).send({ message: result.message, data: result.deletedCount });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send({ message: 'Internal Server Error' });
+    }
+      
 };

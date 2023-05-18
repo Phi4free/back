@@ -1,24 +1,78 @@
-const { request, response } = require("express");
-const { dbCreateUser, dbReadUser, dbUpdateUser, dbDeleteUser } = require("./dbController");
+const { dbCreateUser, dbReadUser, dbUpdateUser, dbDeleteUser } = require('./dbController');
+const { isUserPopulated, charLimit, hasValidEmail, hasStrongPassword, runValidationTests } = require('../middlewares/inputValidation');
 
 module.exports.verPerfilGet = async (request, response) => {
     id = request.query.id;
-    response.send(await dbReadUser(id));
+    try {
+        const result = await dbReadUser(id);
+        response.status(result.status).send({ message: result.message, data: result.user });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send({ message: 'Internal Server Error' });
+    }
 };
 
 module.exports.atualizarPerfilPut = async (request, response, next) => {
-    user = request.body;
-    response.send(await dbUpdateUser(user));
+    const user = request.body;
+
+    const tests = [
+        isUserPopulated,
+        charLimit,
+        hasValidEmail,
+        hasStrongPassword
+    ];
+    
+    const validationResult = runValidationTests(user, tests);
+    if (validationResult) {
+        return response.status(validationResult.status).send({ message: validationResult.message });
+    }
+
+    try {
+        const result = await dbUpdateUser(user);
+        response.status(result.status).send({ message: result.message, data: result.updatedUser });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send({ message: 'Internal Server Error' });
+    }
 };
 
 module.exports.criarPerfilPost = async (request, response, next) => {
-    user = request.body;
-    const result = await dbCreateUser(user);
-    request.user = result.savedUserObject;
-    next();
-  };
+    const user = request.body;
+  
+    const tests = [
+      isUserPopulated,
+      charLimit,
+      hasValidEmail,
+      hasStrongPassword
+    ];
+  
+    const validationResult = runValidationTests(user, tests);
+    if (validationResult) {
+      return response.status(validationResult.status).send({ message: validationResult.message });
+    }
+
+    try {
+        const result = await dbCreateUser(user);
+        if (result.status != 200) {
+            response.status(result.status).send({ message: result.message });
+        } else {
+            request.user = result.savedUserObject;
+            next();
+        }
+    } catch (error) {
+        console.log(error);
+        response.status(500).send({ message: 'Internal Server Error' });
+    }
+};
 
 module.exports.deletarPerfilDelete = async (request, response, next) => {
     id = request.params.id;
-    response.send(await dbDeleteUser(id));
+    try {
+        const result = await dbDeleteUser(id);
+        response.status(result.status).send({ message: result.message, data: result.deletedCount });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send({ message: 'Internal Server Error' });
+    }
+      
 };

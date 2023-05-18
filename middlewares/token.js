@@ -58,7 +58,8 @@ module.exports.authUser = (req, res, next) => {
             return res.status(403).json({auth: false, message: 'User mismatch', status: 403});
           }
       } else {
-        return res.send(bdReq);
+        //console.log("bdReq: " + JSON.stringify(bdReq));
+        return res.status(bdReq.status).send({message: bdReq.message});
       }
     });
 }
