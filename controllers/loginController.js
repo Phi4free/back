@@ -2,9 +2,9 @@ const Login = require('../models/loginModel');
 const util = require('util');
 const { isLoginPopulated, charLimit, hasValidEmail, runValidationTests } = require('../middlewares/inputValidation');
 
+
 module.exports.authUser = async (request, response) => {
     let login = new Login(request.user || request.body);
-    console.log(request.headers.language)
 
     const tests = [
         isLoginPopulated,

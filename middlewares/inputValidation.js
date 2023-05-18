@@ -1,3 +1,5 @@
+const Tradutor = require('../tradutor');
+
 function isUserPopulated(object) {
     const requiredProperties = ["nome", "email", "senha"];
   
@@ -69,11 +71,11 @@ function charLimit(object, limit) {
 
 function hasValidEmail(object) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
+
     if (emailRegex.test(object.email)) {
         return;
     } else {
-      return { message: "Invalid email", status: 400 };
+      return { message: Tradutor.t('invalidEmail'), status: 400 };
     }
 }
   
