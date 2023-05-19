@@ -26,7 +26,7 @@ route.get("/criarArtigo",
     artigoController.criarArtigoGet);
 
 route.post("/criarArtigo",
-    token.verifyJWT, artigoController.criarArtigoPost);
+    token.verifyJWT, authorize('criarArtigo'), artigoController.criarArtigoPost);
 
 route.get("/lerArtigo/:query?",
     artigoController.lerArtigoGet);
@@ -34,10 +34,10 @@ route.get("/lerArtigo/:query?",
 route.get("/listaArtigos",
     artigoController.listaArtigosGet);
 
-route.put("/atualizarArtigo", token.verifyJWT, token.verifyAuthor,
+route.put("/atualizarArtigo", token.verifyJWT, authorize('atualizarArtigo'), token.verifyAuthor,
     artigoController.updateArtigoPut);
 
-route.delete("/excluirArtigo/:id", token.verifyJWT, token.verifyAuthor,
+route.delete("/excluirArtigo/:id", token.verifyJWT, authorize('excluirArtigo'), token.verifyAuthor,
     artigoController.excluirArtigoDelete);
 
 //CONTROLE E ROTEAMENTO DOS USUÁRIOS
@@ -47,13 +47,13 @@ const { json } = require("body-parser");
 route.get("/verPerfil", 
     userController.verPerfilGet);
 
-route.put("/atualizarPerfil", token.verifyJWT, token.verifyUser,
+route.put("/atualizarPerfil", token.verifyJWT, authorize('atualizarPerfil'), token.verifyUser,
     userController.atualizarPerfilPut);
 
 route.post("/criarPerfil", 
     userController.criarPerfilPost, loginController.authUser);
 
-route.delete("/deletarPerfil/:id", token.verifyJWT, token.verifyUser,
+route.delete("/deletarPerfil/:id", token.verifyJWT, authorize('deletarPerfil'), token.verifyUser,
     userController.deletarPerfilDelete);
 
 //CONTROLE E ROTEAMENTO DE LOGIN
