@@ -33,10 +33,10 @@ route.get("/lerArtigo/:query?",
 route.get("/listaArtigos",
     artigoController.listaArtigosGet);
 
-route.put("/atualizarArtigo", token.authAutor,
+route.put("/atualizarArtigo", token.verifyAuthor,
     artigoController.updateArtigoPut);
 
-route.delete("/excluirArtigo/:id", token.authAutor,
+route.delete("/excluirArtigo/:id", token.verifyAuthor,
     artigoController.excluirArtigoDelete);
 
 //CONTROLE E ROTEAMENTO DOS USUÁRIOS

@@ -26,30 +26,21 @@ module.exports.verifyJWT = async (req, res, next) => {
   }
 }
 
-module.exports.authAutor = (req, res, next) => {
-    const token = req.headers['x-access-token'];
-    if (!token) return res.status(401).json({ auth: false, message: 'No token provided', status: 401 });
-    
-    jwt.verify(token, process.env.SECRET, async function(err, decoded) {
-      if (err) return res.status(401).json({ auth: false, message: 'Failed to authenticate token', status: 401 });
-      
-      // se tudo estiver ok, salva no request para uso posterior
-      let userId = decoded.id;
-      let articleId = (req.body._id || req.params.id);
-      let bdReq = await dbReadArticle(articleId);
-      if (bdReq.status != 404) {
-        if (userId == bdReq.article.autorId) {
-            req.id = userId;
-            next();
-          } else {
-            return res.status(403).json({auth: false, message: 'You cannot access this article', status: 403});
-          }
+module.exports.verifyAuthor = async (req, res, next) => {
+  await verifyJWT(req, res, async () => {
+    let articleId = (req.body._id || req.params.id);
+    let bdReq = await dbReadArticle(articleId);
+    if (bdReq.status != 404) {
+      if (req.user._id == bdReq.article.autorId) {
+        next();
       } else {
-        return res.send(bdReq);
+        return res.status(403).json({ auth: false, message: 'You cannot access this article', status: 403 });
       }
-      
-    });
-}
+    } else {
+      return res.send(bdReq);
+    }
+  });
+};
 
 module.exports.authUser = (req, res, next) => {
     const token = req.headers['x-access-token'];
