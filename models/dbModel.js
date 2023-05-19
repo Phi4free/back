@@ -78,6 +78,11 @@ const UserSchema = new mongoose.Schema({
     notas: {
       type: [NotaSchema],
       default: []
+    },
+    role: {
+      type: String,
+      enum: ['Student', 'Teacher', 'Curator', 'Administrator'],
+      default: 'Student'
     }
 });
 
