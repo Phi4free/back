@@ -31,7 +31,7 @@ const verifyAuthor = async (req, res, next) => {
     let articleId = (req.body._id || req.params.id);
     let bdReq = await dbReadArticle(articleId);
     if (bdReq.status != 404) {
-      if (req.user._id == bdReq.article.autorId) {
+      if (req.user._id.toString() === bdReq.article.autorId.toString()) {
         next();
       } else {
         return res.status(403).json({ auth: false, message: 'You cannot access this article', status: 403 });
@@ -47,7 +47,7 @@ const verifyUser = async (req, res, next) => {
     let reqId = (req.body._id || req.params.id);
     let bdReq = await dbReadUser(reqId);
     if (bdReq.status != 404) {
-      if (req.user._id == bdReq.user._id) {
+      if (req.user._id.toString() === bdReq.user._id.toString()) {
         next();
       } else {
         return res.status(403).json({ auth: false, message: 'User mismatch', status: 403 });
