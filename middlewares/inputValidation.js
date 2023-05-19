@@ -56,12 +56,12 @@ function charLimit(object) {
     const maxLimit = 30;
     const propertyOffLimit = Object.keys(object).find(
       propertyName =>
-        typeof object[propertyName] === 'string' && object[propertyName].length < minLimit && object[propertyName].length > maxLimit
+        typeof object[propertyName] === 'string' && (object[propertyName].length < minLimit || object[propertyName].length > maxLimit)
     );
   
     if (propertyOffLimit) {
       return {
-        message: `Property '${propertyEOffLimit}' must be over ${minLimit} and under ${maxLimit} characters`,
+        message: `Property '${propertyOffLimit}' must be over ${minLimit} and under ${maxLimit} characters`,
         status: 400
       };
     } else {
