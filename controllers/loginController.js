@@ -19,7 +19,7 @@ module.exports.authUser = async (request, response) => {
     try {
         //console.log('Login request: ' + util.inspect(request.body));
         const tokenObject = await login.getToken();
-        response.status(tokenObject.status).send({ auth: tokenObject.auth, token: tokenObject.token, message: tokenObject.message });
+        response.status(tokenObject.status).send({ auth: tokenObject.auth, token: tokenObject.token, userId: tokenObject.userId, message: tokenObject.message });
     } catch (error) {
         console.log(error);
         response.status(500).send({ message: 'Internal Server Error'});

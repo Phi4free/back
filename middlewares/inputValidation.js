@@ -53,7 +53,7 @@ function isLoginPopulated(object) {
   
 function charLimit(object) {
     const minLimit = 4;
-    const maxLimit = 30;
+    const maxLimit = 50;
     const propertyOffLimit = Object.keys(object).find(
       propertyName =>
         typeof object[propertyName] === 'string' && (object[propertyName].length < minLimit || object[propertyName].length > maxLimit)
