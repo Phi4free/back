@@ -9,7 +9,7 @@ module.exports.verifyJWT = async (req, res, next) => {
       return res.status(403).json({ message: 'No token provided.' });
     }
 
-    const decoded = jwt.verify(token, YOUR_SECRET_KEY);
+    const decoded = jwt.verify(token, process.env.SECRET);
     const user = await dbReadUser(decoded.id);
 
     if (!user) {
