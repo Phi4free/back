@@ -51,15 +51,17 @@ function isLoginPopulated(object) {
 }
   
   
-function charLimit(object, limit) {
-    const propertyExceedingLimit = Object.keys(object).find(
+function charLimit(object) {
+    const minLimit = 4;
+    const maxLimit = 30;
+    const propertyOffLimit = Object.keys(object).find(
       propertyName =>
-        typeof object[propertyName] === 'string' && object[propertyName].length > limit
+        typeof object[propertyName] === 'string' && object[propertyName].length < minLimit && object[propertyName].length > maxLimit
     );
   
-    if (propertyExceedingLimit) {
+    if (propertyOffLimit) {
       return {
-        message: `Property '${propertyExceedingLimit}' must be under ${limit} characters`,
+        message: `Property '${propertyEOffLimit}' must be over ${minLimit} and under ${maxLimit} characters`,
         status: 400
       };
     } else {
