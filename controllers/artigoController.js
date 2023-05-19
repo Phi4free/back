@@ -21,7 +21,7 @@ module.exports.criarArtigoGet = (request, response) => {
 module.exports.criarArtigoPost = async (request, response, next) => {
     //const user = request.session.user;
     const artigo = request.body;
-    artigo.autorId = request.id;
+    artigo.autorId = request.user._id;
     //dbCreateArticle(user, artigo);
     try {
         const result = await dbCreateArticle(artigo);
