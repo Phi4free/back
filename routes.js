@@ -2,6 +2,7 @@ const express = require("express");
 const route = express.Router();
 const token = require("./middlewares/token");
 const loginController = require("./controllers/loginController");
+const { authorize } = require("./middlewares/permissions");
 
 route.get("/", function (req, res, next) {
     //var pass = req.body("password");
