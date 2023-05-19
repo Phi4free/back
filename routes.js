@@ -33,10 +33,10 @@ route.get("/lerArtigo/:query?",
 route.get("/listaArtigos",
     artigoController.listaArtigosGet);
 
-route.put("/atualizarArtigo", token.verifyAuthor,
+route.put("/atualizarArtigo", token.verifyJWT, token.verifyAuthor,
     artigoController.updateArtigoPut);
 
-route.delete("/excluirArtigo/:id", token.verifyAuthor,
+route.delete("/excluirArtigo/:id", token.verifyJWT, token.verifyAuthor,
     artigoController.excluirArtigoDelete);
 
 //CONTROLE E ROTEAMENTO DOS USUÁRIOS
@@ -46,13 +46,13 @@ const { json } = require("body-parser");
 route.get("/verPerfil", 
     userController.verPerfilGet);
 
-route.put("/atualizarPerfil", token.verifyUser,
+route.put("/atualizarPerfil", token.verifyJWT, token.verifyUser,
     userController.atualizarPerfilPut);
 
 route.post("/criarPerfil", 
     userController.criarPerfilPost, loginController.authUser);
 
-route.delete("/deletarPerfil/:id", token.verifyUser,
+route.delete("/deletarPerfil/:id", token.verifyJWT, token.verifyUser,
     userController.deletarPerfilDelete);
 
 //CONTROLE E ROTEAMENTO DE LOGIN
