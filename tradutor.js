@@ -17,6 +17,7 @@ const Tradutor = {
                 createUser404: 'Error creating user, please try again later',
                 emailInUse400: 'This e-mail is already in use',
                 readUser404: 'User not found',
+                missingProperty: 'Missing required property',
             }
         },
         "pt-BR": {
@@ -30,6 +31,7 @@ const Tradutor = {
                 createUser404: 'Erro ao criar usuário, por favor tente novamente mais tarde',
                 emailInUse400: 'Este e-mail já está sendo usado',
                 readUser404: 'Usuário não encontrado',
+                missingProperty: 'Campo obrigatório vazio'
             }
         },
     },

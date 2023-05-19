@@ -6,7 +6,7 @@ function isUserPopulated(object) {
     for (const property of requiredProperties) {
       if (!(property in object)) {
         return {
-          message: `Missing required property '${property}'`,
+          message: Tradutor.t('missingProperty') + ` '${property}'`,
           status: 400
         };
       }
