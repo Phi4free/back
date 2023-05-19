@@ -46,13 +46,13 @@ const { json } = require("body-parser");
 route.get("/verPerfil", 
     userController.verPerfilGet);
 
-route.put("/atualizarPerfil", token.authUser,
+route.put("/atualizarPerfil", token.verifyAuthor,
     userController.atualizarPerfilPut);
 
 route.post("/criarPerfil", 
     userController.criarPerfilPost, loginController.authUser);
 
-route.delete("/deletarPerfil/:id", token.authUser,
+route.delete("/deletarPerfil/:id", token.verifyAuthor,
     userController.deletarPerfilDelete);
 
 //CONTROLE E ROTEAMENTO DE LOGIN

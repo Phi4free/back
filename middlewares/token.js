@@ -42,26 +42,18 @@ module.exports.verifyAuthor = async (req, res, next) => {
   });
 };
 
-module.exports.authUser = (req, res, next) => {
-    const token = req.headers['x-access-token'];
-    if (!token) return res.status(401).json({ auth: false, message: 'No token provided', status: 401 });
-    
-    jwt.verify(token, process.env.SECRET, async function(err, decoded) {
-      if (err) return res.status(401).json({ auth: false, message: 'Failed to authenticate token', status: 401 });
-      
-      // se tudo estiver ok, salva no request para uso posterior
-      userId = decoded.id;
-      let reqId = (req.body._id || req.params.id);
-      let bdReq = await dbReadUser(reqId);
-      if (bdReq.status != 404) {
-        if (userId == bdReq.user._id) {
-            next();
-          } else {
-            return res.status(403).json({auth: false, message: 'User mismatch', status: 403});
-          }
+module.exports.verifyUser = async (req, res, next) => {
+  await verifyJWT(req, res, async () => {
+    let reqId = (req.body._id || req.params.id);
+    let bdReq = await dbReadUser(reqId);
+    if (bdReq.status != 404) {
+      if (req.user._id == bdReq.user._id) {
+        next();
       } else {
-        //console.log("bdReq: " + JSON.stringify(bdReq));
-        return res.status(bdReq.status).send({message: bdReq.message});
+        return res.status(403).json({ auth: false, message: 'User mismatch', status: 403 });
       }
-    });
-}
+    } else {
+      return res.status(bdReq.status).send({ message: bdReq.message });
+    }
+  });
+};
