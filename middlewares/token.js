@@ -6,22 +6,23 @@ module.exports.verifyJWT = async (req, res, next) => {
   try {
     const token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
     if (!token) {
-      return res.status(403).json({ message: 'No token provided.' });
+      return res.status(403).json({ message: 'No token provided.', status: 403 });
     }
 
     const decoded = jwt.verify(token, process.env.SECRET);
-    const user = await dbReadUser(decoded.id);
+    const dbResult = await dbReadUser(decoded.id);
 
-    if (!user) {
-      return res.status(401).json({ message: 'Failed to authenticate token.' });
+    if (dbResult.status !== 200) {
+      return res.status(401).json({ message: 'Failed to authenticate token.', status: 401 });
     }
 
     // Attach user to the request object
-    req.user = user;
+    req.user = dbResult.user;
 
     next();
   } catch (error) {
-    return res.status(500).json({ message: 'Failed to authenticate token.' });
+    console.log(error);
+    return res.status(500).json({ message: 'Failed to authenticate token.', status: 500 });
   }
 }
 
