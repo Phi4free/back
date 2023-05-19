@@ -2,7 +2,7 @@ const { req, res } = require("express");
 const jwt = require('jsonwebtoken');
 const { dbReadArticle, dbReadUser } = require("../controllers/dbController");
 
-module.exports.verifyJWT = async (req, res, next) => {
+const verifyJWT = async (req, res, next) => {
   try {
     const token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
     if (!token) {
@@ -26,7 +26,7 @@ module.exports.verifyJWT = async (req, res, next) => {
   }
 }
 
-module.exports.verifyAuthor = async (req, res, next) => {
+const verifyAuthor = async (req, res, next) => {
   await verifyJWT(req, res, async () => {
     let articleId = (req.body._id || req.params.id);
     let bdReq = await dbReadArticle(articleId);
@@ -42,7 +42,7 @@ module.exports.verifyAuthor = async (req, res, next) => {
   });
 };
 
-module.exports.verifyUser = async (req, res, next) => {
+const verifyUser = async (req, res, next) => {
   await verifyJWT(req, res, async () => {
     let reqId = (req.body._id || req.params.id);
     let bdReq = await dbReadUser(reqId);
@@ -57,3 +57,5 @@ module.exports.verifyUser = async (req, res, next) => {
     }
   });
 };
+
+module.exports = { verifyJWT, verifyAuthor, verifyUser };
