@@ -97,7 +97,7 @@ function hasStrongPassword(object) {
     ) {
         return;
     } else {
-      return { message: "Weak password", status: 400 };
+      return { message: Tradutor.t('weakPassword'), status: 400 };
     }
 }
   

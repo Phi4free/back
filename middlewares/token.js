@@ -1,19 +1,20 @@
 const { req, res } = require("express");
 const jwt = require('jsonwebtoken');
 const { dbReadArticle, dbReadUser } = require("../controllers/dbController");
+const Tradutor = require("../tradutor");
 
 module.exports.verifyJWT = async (req, res, next) => {
   try {
     const token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
     if (!token) {
-      return res.status(403).json({ message: 'No token provided.', status: 403 });
+      return res.status(403).json({ message: Tradutor.t('noToken'), status: 403 });
     }
 
     const decoded = jwt.verify(token, process.env.SECRET);
     const dbResult = await dbReadUser(decoded.id);
 
     if (dbResult.status !== 200) {
-      return res.status(401).json({ message: 'Failed to authenticate token.', status: 401 });
+      return res.status(401).json({ message: Tradutor.t('tokenFail401'), status: 401 });
     }
 
     // Attach user to the request object
@@ -22,16 +23,16 @@ module.exports.verifyJWT = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: 'Failed to authenticate token.', status: 500 });
+    return res.status(500).json({ message: Tradutor.t('tokenFail401'), status: 500 });
   }
 }
 
 module.exports.authAutor = (req, res, next) => {
     const token = req.headers['x-access-token'];
-    if (!token) return res.status(401).json({ auth: false, message: 'No token provided', status: 401 });
+    if (!token) return res.status(401).json({ auth: false, message: Tradutor.t('noToken'), status: 401 });
     
     jwt.verify(token, process.env.SECRET, async function(err, decoded) {
-      if (err) return res.status(401).json({ auth: false, message: 'Failed to authenticate token', status: 401 });
+      if (err) return res.status(401).json({ auth: false, message: Tradutor.t('tokenFail401'), status: 401 });
       
       // se tudo estiver ok, salva no request para uso posterior
       let userId = decoded.id;
@@ -42,7 +43,7 @@ module.exports.authAutor = (req, res, next) => {
             req.id = userId;
             next();
           } else {
-            return res.status(403).json({auth: false, message: 'You cannot access this article', status: 403});
+            return res.status(403).json({auth: false, message: Tradutor.t('articleAcessDenied403'), status: 403});
           }
       } else {
         return res.send(bdReq);
@@ -53,10 +54,10 @@ module.exports.authAutor = (req, res, next) => {
 
 module.exports.authUser = (req, res, next) => {
     const token = req.headers['x-access-token'];
-    if (!token) return res.status(401).json({ auth: false, message: 'No token provided', status: 401 });
+    if (!token) return res.status(401).json({ auth: false, message: Tradutor.t('noToken'), status: 401 });
     
     jwt.verify(token, process.env.SECRET, async function(err, decoded) {
-      if (err) return res.status(401).json({ auth: false, message: 'Failed to authenticate token', status: 401 });
+      if (err) return res.status(401).json({ auth: false, message: Tradutor.t('tokenFail401'), status: 401 });
       
       // se tudo estiver ok, salva no request para uso posterior
       userId = decoded.id;
@@ -66,7 +67,7 @@ module.exports.authUser = (req, res, next) => {
         if (userId == bdReq.user._id) {
             next();
           } else {
-            return res.status(403).json({auth: false, message: 'User mismatch', status: 403});
+            return res.status(403).json({auth: false, message: Tradutor.t('userMismatch'), status: 403});
           }
       } else {
         //console.log("bdReq: " + JSON.stringify(bdReq));
