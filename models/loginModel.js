@@ -1,8 +1,10 @@
 const { dbAuthenticator } = require("../controllers/dbController");
-const util = require('util');
+const util = require("util");
+const Tradutor = require("../tradutor");
 
 class Login {
-    email; senha;
+    email;
+    senha;
     constructor(login) {
         this.email = login.email;
         this.senha = login.senha;
@@ -20,13 +22,17 @@ class Login {
         //console.log("getToken().this: " + util.inspect(this));
         let id = await dbAuthenticator(this);
         if (id == -1) {
-            return {auth: false, message: "Invalid login credentials", status: 401};
+            return {
+                auth: false,
+                message: Tradutor.t('invalidLogin'),
+                status: 401,
+            };
         } else {
-            const jwt = require('jsonwebtoken');
+            const jwt = require("jsonwebtoken");
             const token = jwt.sign({ id }, process.env.SECRET, {
                 expiresIn: 6000 // expires in 100min
-              });
-             return {auth: true, token: token, userId: id, status: 200};
+            });
+            return { auth: true, token: token, userID: id, status: 200 };
         }
     }
 }

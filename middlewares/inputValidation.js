@@ -1,10 +1,12 @@
+const Tradutor = require('../tradutor');
+
 function isUserPopulated(object) {
     const requiredProperties = ["nome", "email", "senha"];
   
     for (const property of requiredProperties) {
       if (!(property in object)) {
         return {
-          message: `Missing required property '${property}'`,
+          message: Tradutor.t('missingProperty') + ` '${property}'`,
           status: 400
         };
       }
@@ -71,11 +73,11 @@ function charLimit(object) {
 
 function hasValidEmail(object) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
+
     if (emailRegex.test(object.email)) {
         return;
     } else {
-      return { message: "Invalid email", status: 400 };
+      return { message: Tradutor.t('invalidEmail'), status: 400 };
     }
 }
   
@@ -97,7 +99,7 @@ function hasStrongPassword(object) {
     ) {
         return;
     } else {
-      return { message: "Weak password", status: 400 };
+      return { message: Tradutor.t('weakPassword'), status: 400 };
     }
 }
   

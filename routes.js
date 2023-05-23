@@ -4,6 +4,11 @@ const token = require("./middlewares/token");
 const loginController = require("./controllers/loginController");
 const { authorize } = require("./middlewares/permissions");
 
+route.use(function (req, res, next) {
+    Tradutor.selectedLanguage = req.headers?.language || "en";
+    next();
+});
+
 route.get("/", function (req, res, next) {
     //var pass = req.body("password");
     //var loginx = req.body("login");
@@ -43,6 +48,7 @@ route.delete("/excluirArtigo/:id", token.verifyJWT, authorize('excluirArtigo'), 
 //CONTROLE E ROTEAMENTO DOS USUÁRIOS
 const userController = require("./controllers/userController");
 const { json } = require("body-parser");
+const Tradutor = require("./tradutor");
 
 route.get("/verPerfil", 
     userController.verPerfilGet);
