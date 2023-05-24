@@ -20,8 +20,8 @@ class Login {
 
     async getToken() {
         //console.log("getToken().this: " + util.inspect(this));
-        let id = await dbAuthenticator(this);
-        if (id == -1) {
+        let user = await dbAuthenticator(this);
+        if (user == null) {
             return {
                 auth: false,
                 message: Tradutor.t('invalidLogin'),
@@ -29,10 +29,10 @@ class Login {
             };
         } else {
             const jwt = require("jsonwebtoken");
-            const token = jwt.sign({ id }, process.env.SECRET, {
+            const token = jwt.sign({ id: user._id }, process.env.SECRET, {
                 expiresIn: 6000, // expires in 100min
             });
-            return { auth: true, token: token, status: 200 };
+            return { auth: true, token: token, username: user.nome, status: 200 };
         }
     }
 }

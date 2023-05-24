@@ -27,6 +27,7 @@ module.exports.authUser = async (request, response) => {
             .status(tokenObject.status)
             .send({
                 auth: tokenObject.auth,
+                username: tokenObject.username,
                 token: tokenObject.token,
                 message: tokenObject.message,
             });

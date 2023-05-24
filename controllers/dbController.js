@@ -45,9 +45,9 @@ module.exports.dbDeleteArticle = async (id) => {
 module.exports.dbAuthenticator = async (login) => {
   const user = await User.findOne({ email: login.email }).exec();
   if (user && await validatePassword(login.senha, user.senha)) {
-    return user._id
+    return user
   } else {
-    return -1;
+    return null;
   }
 };
 
