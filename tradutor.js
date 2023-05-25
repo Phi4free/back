@@ -24,6 +24,7 @@ const Tradutor = {
                 articleAcessDenied403: 'You cannot access this article',
                 userMismatch: 'User not found',
                 invalidLogin: 'Invalid email or password',
+                imageError: 'Image uploading error. Please, report this to our IT contacts',
             }
         },
         "pt-BR": {
@@ -44,6 +45,7 @@ const Tradutor = {
                 articleAcessDenied403: 'Você não pode acessar este artigo',
                 userMismatch: 'Usuário não encontrado',
                 invalidLogin: 'Email ou senha inválidos',
+                imageError: 'Erro ao fazer upload de imagem. Favor entrar em contato com nossa TI'
             }
         },
     },
