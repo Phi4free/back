@@ -30,9 +30,10 @@ module.exports.uploadToCloudinary = async (request, response) => {
 }
 
 module.exports.saveToDatabase = async (request, response) => {
+    const userId = request.user._id;
     try {
         const imageData = request.cloudinary;
-        const result = await dbSaveImageData(imageData);
+        const result = await dbSaveImageData(imageData, userId);
         response
             .status(result.status)
             .send({ message: result.message, data: result.imageData, status: result.status });
