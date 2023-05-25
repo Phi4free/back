@@ -23,3 +23,16 @@ module.exports.uploadToCloudinary = async (request, response) => {
         response.status(500).send({message: Tradutor.t('error'), status: 500});
     }
 }
+
+module.exports.saveToDatabase = async (request, response) => {
+    try {
+        const imageData = request.cloudinary;
+        const result = await dbSaveImageData(imageData);
+        response
+            .status(result.status)
+            .send({ message: result.message, data: result.imageData, status: result.status });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send({message: Tradutor.t('error'), status: 500});
+    }
+}
