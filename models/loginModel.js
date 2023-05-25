@@ -30,9 +30,9 @@ class Login {
         } else {
             const jwt = require("jsonwebtoken");
             const token = jwt.sign({ id }, process.env.SECRET, {
-                expiresIn: 6000, // expires in 100min
+                expiresIn: 6000 // expires in 100min
             });
-            return { auth: true, token: token, status: 200 };
+            return { auth: true, token: token, userId: id, status: 200 };
         }
     }
 }

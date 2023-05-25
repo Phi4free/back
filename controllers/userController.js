@@ -29,6 +29,11 @@ module.exports.verPerfilGet = async (request, response) => {
 module.exports.atualizarPerfilPut = async (request, response, next) => {
     const user = request.body;
 
+    // Prevent non-administrators from changing the role
+    if (user.role && request.user.role !== 'Administrator') {
+        delete user.role;
+    }
+
     const tests = [
         isUserPopulated,
         charLimit,

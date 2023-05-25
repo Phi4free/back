@@ -28,7 +28,8 @@ module.exports.authUser = async (request, response) => {
             .send({
                 auth: tokenObject.auth,
                 token: tokenObject.token,
-                message: tokenObject.message,
+                userId: tokenObject.userId,
+                message: tokenObject.message
             });
     } catch (error) {
         console.log(error);
