@@ -114,3 +114,19 @@ module.exports.dbDeleteUser = async (id) => {
   console.log(`User with ID: ${id} was deleted`);
   return deletedCount ? { message: "OK", deletedCount, status: 200 } : { message: Tradutor.t('readUser404'), status: 404 };
 };
+
+
+module.exports.dbSaveImageData = async (imageData, userId) => {
+  // Create a new document in your MongoDB collection
+  const newImage = new Image({
+    cloudinaryId: imageData.public_id,
+    name: imageData.path,
+    userId: userId,
+    imageURL: imageData.secure_url,
+  });
+
+  // Save the new document to MongoDB
+  savedImageData = await newImage.save();
+  console.log(`New image saved with ID: ${savedImageData._id} and URL: ${savedImageData.imageURL} by user with ID: ${savedImageData.userId}`);
+  return savedImageData ? {message: "OK", savedImageData, status: 200} : { message: Tradutor.t('imageError'), status: 500 };
+};
