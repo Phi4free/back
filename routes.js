@@ -64,6 +64,10 @@ route.delete("/deletarPerfil/:id", token.authUser,
 //CONTROLE E ROTEAMENTO DE LOGIN
 route.post("/authUser", 
     loginController.authUser);
+
+//UPLOAD DE IMAGENS
+route.post("/uploadImage",
+    bucketController.uploadImage);
     
 module.exports = route;
 
