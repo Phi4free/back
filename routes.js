@@ -68,7 +68,7 @@ route.post("/authUser",
 //CONTROLE E UPLOAD DE IMAGENS
 const bucketController = require("./controllers/bucketController");
 route.post("/uploadImage",
-    bucketController.uploadImage);
+    bucketController.saveToMemory, bucketController.uploadToCloudinary, bucketController.saveToDatabase);
     
 module.exports = route;
 
