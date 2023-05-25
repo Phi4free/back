@@ -96,8 +96,36 @@ UserSchema.pre('save', function(next) {
   
 const User = mongoose.model('users', UserSchema);
 
+//IMAGES SCHEMA --------------------------------------------------------------------------------------------------------------
+const ImageSchema = new mongoose.Schema({
+  cloudinaryId: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  articleKey: {
+    type: String,
+    required: true,
+  },
+  imageURL: {
+    type: String,
+    required: true,
+  },
+  // other fields related to the image if necessary
+});
+
+const Image = mongoose.model('Image', ImageSchema);
+
+
 module.exports = {
     Article,
-    User, Nota
+    User, 
+    Nota,
+    Image
   }
   
