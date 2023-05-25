@@ -65,7 +65,8 @@ route.delete("/deletarPerfil/:id", token.authUser,
 route.post("/authUser", 
     loginController.authUser);
 
-//UPLOAD DE IMAGENS
+//CONTROLE E UPLOAD DE IMAGENS
+const bucketController = require("./controllers/bucketController");
 route.post("/uploadImage",
     bucketController.uploadImage);
     
