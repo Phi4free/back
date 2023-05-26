@@ -50,7 +50,7 @@ const { json } = require("body-parser");
 const Tradutor = require("./tradutor");
 
 route.get("/verPerfil", 
-    userController.verPerfilGet);
+    token.verifyJWT, userController.verPerfilGet);
 
 route.put("/atualizarPerfil", token.authUser,
     userController.atualizarPerfilPut);
