@@ -29,7 +29,8 @@ module.exports.authUser = async (request, response) => {
                 auth: tokenObject.auth,
                 username: tokenObject.username,
                 token: tokenObject.token,
-                message: tokenObject.message,
+                userId: tokenObject.userId,
+                message: tokenObject.message
             });
     } catch (error) {
         console.log(error);
