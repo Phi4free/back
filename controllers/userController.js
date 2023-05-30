@@ -13,6 +13,12 @@ const {
 } = require("../middlewares/inputValidation");
 const Tradutor = require("../tradutor");
 
+/**
+ * NOTA:
+ * Coloque uma validação: Se o id do usuário requisitado é diferente do usuário requisitante:
+ * NÃO retorne dados sensíveis! Esses dados devem ficar restritos para o holder desses dados.
+ */
+
 module.exports.verPerfilGet = async (request, response) => {
     id = request.query.id;
     try {
