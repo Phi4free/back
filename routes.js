@@ -53,6 +53,9 @@ const Tradutor = require("./tradutor");
 route.get("/verPerfil", 
     token.verifyJWT, userController.verPerfilGet);
 
+route.get("/verMeuPerfil", 
+    token.verifyJWT, userController.verMeuPerfilGet);
+
 route.put("/atualizarPerfil", token.verifyJWT, authorize('atualizarPerfil'), token.verifyUser,
     userController.atualizarPerfilPut);
 

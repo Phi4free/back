@@ -13,11 +13,12 @@ const {
 } = require("../middlewares/inputValidation");
 const Tradutor = require("../tradutor");
 
-/**
- * NOTA:
- * Coloque uma validação: Se o id do usuário requisitado é diferente do usuário requisitante:
- * NÃO retorne dados sensíveis! Esses dados devem ficar restritos para o holder desses dados.
- */
+module.exports.verMeuPerfilGet = async (request, response) => {
+    let { nome, email, role } = request.user;
+    response
+        .status(200)
+        .send({ message: 200, data: { nome, email, role } });
+};
 
 module.exports.verPerfilGet = async (request, response) => {
     id = request.query.id;
@@ -36,7 +37,7 @@ module.exports.atualizarPerfilPut = async (request, response, next) => {
     const user = request.body;
 
     // Prevent non-administrators from changing the role
-    if (user.role && request.user.role !== 'Administrator') {
+    if (user.role && request.user.role !== "Administrator") {
         delete user.role;
     }
 
