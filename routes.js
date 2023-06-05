@@ -13,61 +13,85 @@ route.get("/", function (req, res, next) {
     //var pass = req.body("password");
     //var loginx = req.body("login");
     //res.render('index.html', { title: 'Express' });
-    res.redirect("/status")
-    next
+    res.redirect("/status");
+    next;
 });
 
 route.get("/status", (request, response) => {
-    response.send(JSON.stringify({
-        status: 'OK',
-        message: 'Parece estar funcionando.'
-    }));
+    response.send(
+        JSON.stringify({
+            status: "OK",
+            message: "Parece estar funcionando.",
+        })
+    );
 });
 
 //CONTROLE E ROTEAMENTO DOS ARTIGOS
 const artigoController = require("./controllers/artigoController");
 
-route.get("/criarArtigo",
-    artigoController.criarArtigoGet);
+route.get("/criarArtigo", artigoController.criarArtigoGet);
 
-route.post("/criarArtigo",
-    token.verifyJWT, authorize('criarArtigo'), artigoController.criarArtigoPost);
+route.post(
+    "/criarArtigo",
+    token.verifyJWT,
+    authorize("criarArtigo"),
+    artigoController.criarArtigoPost
+);
 
-route.get("/lerArtigo/:query?",
-    artigoController.lerArtigoGet);
+route.get("/lerArtigo/:query?", artigoController.lerArtigoGet);
 
-route.get("/listaArtigos",
-    artigoController.listaArtigosGet);
+route.get("/listaArtigos", artigoController.listaArtigosGet);
 
-route.put("/atualizarArtigo", token.verifyJWT, authorize('atualizarArtigo'), token.verifyAuthor,
-    artigoController.updateArtigoPut);
+route.put(
+    "/atualizarArtigo",
+    token.verifyJWT,
+    authorize("atualizarArtigo"),
+    token.verifyAuthor,
+    artigoController.updateArtigoPut
+);
 
-route.delete("/excluirArtigo/:id", token.verifyJWT, authorize('excluirArtigo'), token.verifyAuthor,
-    artigoController.excluirArtigoDelete);
+route.delete(
+    "/excluirArtigo/:id",
+    token.verifyJWT,
+    authorize("excluirArtigo"),
+    token.verifyAuthor,
+    artigoController.excluirArtigoDelete
+);
 
 //CONTROLE E ROTEAMENTO DOS USUÁRIOS
 const userController = require("./controllers/userController");
 const { json } = require("body-parser");
 const Tradutor = require("./tradutor");
 
-route.get("/verPerfil", 
-    token.verifyJWT, userController.verPerfilGet);
+route.get("/verPerfil", token.verifyJWT, userController.verPerfilGet);
 
-route.get("/verMeuPerfil", 
-    token.verifyJWT, userController.verMeuPerfilGet);
+route.get("/verMeuPerfil", token.verifyJWT, userController.verMeuPerfilGet);
 
-route.put("/atualizarPerfil", token.verifyJWT, authorize('atualizarPerfil'), token.verifyUser,
-    userController.atualizarPerfilPut);
+// route.put(
+//     "/atualizarPerfil",
+//     token.verifyJWT,
+//     authorize("atualizarPerfil"),
+//     token.verifyUser,
+//     userController.atualizarPerfilPut
+// );
 
-route.post("/criarPerfil", 
-    userController.criarPerfilPost, loginController.authUser);
+route.put("/atualizarEmail", token.verifyJWT, userController.atualizarEmailPut);
 
-route.delete("/deletarPerfil/:id", token.verifyJWT, authorize('deletarPerfil'), token.verifyUser,
-    userController.deletarPerfilDelete);
+route.post(
+    "/criarPerfil",
+    userController.criarPerfilPost,
+    loginController.authUser
+);
+
+route.delete(
+    "/deletarPerfil/:id",
+    token.verifyJWT,
+    authorize("deletarPerfil"),
+    token.verifyUser,
+    userController.deletarPerfilDelete
+);
 
 //CONTROLE E ROTEAMENTO DE LOGIN
-route.post("/authUser", 
-    loginController.authUser);
-    
-module.exports = route;
+route.post("/authUser", loginController.authUser);
 
+module.exports = route;
