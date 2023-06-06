@@ -23,7 +23,7 @@ const verifyJWT = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: Tradutor.t('tokenFail401'), status: 500 });
+    return res.status(401).json({ message: Tradutor.t('tokenFail401'), status: 401 });
   }
 }
 
