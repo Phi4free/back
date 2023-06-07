@@ -109,7 +109,6 @@ module.exports.verPerfilGet = async (request, response) => {
 module.exports.atualizarEmailPut = async (request, response, next) => {
     const body = request.body;
     const user = request.user;
-    //runValidation(response, user);
     const validationResult = runValidationTests(body, [hasValidEmail]);
     if(validationResult){
         response.status(400)
@@ -119,6 +118,27 @@ module.exports.atualizarEmailPut = async (request, response, next) => {
     }
     try {
         const result = await dbUpdateUserEmail(user._id, body.email);
+        response
+            .status(result.status)
+            .send({ message: result.message, data: result.updatedUser });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send({ message: Tradutor.t("error") });
+    }
+};
+
+module.exports.atualizarSenhaPut = async (request, response, next) => {
+    const body = request.body;
+    const user = request.user;
+    const validationResult = runValidationTests(body, [hasStrongPassword]);
+    if(validationResult){
+        response.status(400)
+        .send(validationResult);
+        next();
+        return;
+    }
+    try {
+        const result = await dbUpdateUserPassword(user._id, body.senha);
         response
             .status(result.status)
             .send({ message: result.message, data: result.updatedUser });

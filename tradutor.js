@@ -11,6 +11,7 @@ const Tradutor = {
                 error: 'Internal Server Error',
                 updatedEmail200: 'Email updated successfully!',
                 invalidEmail: 'Invalid Email',
+                updatedPass200: "Password updated successfully!",
                 weakPassword: 'Your password must have more than 8 characters, uppercase, lowercase and special characters',
                 article403: 'Your current account cannot create articles. Contact us to validate your profile as a content creator!',
                 createArticle404: 'Error creating article',
@@ -30,6 +31,7 @@ const Tradutor = {
         "pt-BR": {
             translation:{
                 error: 'Erro interno do servidor',
+                updatedPass200: "Senha atualizada com sucesso!",
                 updatedEmail200: 'Email atualizado com sucesso!',
                 invalidEmail: 'Email inválido',
                 weakPassword: 'Sua senha deve ter mais de 8 caracteres, maiúsculas, minúsculas e caracteres especiais',

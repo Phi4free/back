@@ -145,23 +145,40 @@ module.exports.dbUpdateUserEmail = async (id, email) => {
         : { message: Tradutor.t("readUser404"), status: 404 };
 };
 
-module.exports.dbUpdateUserPassword = async (user) => {
-    const existingUser = await User.findById(user._id);
+module.exports.dbUpdateUserPassword = async (id, pass) => {
+    const existingUser = await User.findById(id);
     if (!existingUser) {
         return { message: Tradutor.t("readUser404"), status: 404 };
     }
-    user.senha = await encryptPassword(user.senha);
-
+    const senha = await encryptPassword(pass);
     const updatedUser = await User.findByIdAndUpdate(
-        user._id,
-        { $set: user, $inc: { __v: 1 } },
+        id,
+        { $set: {senha}, $inc: { __v: 1 } },
         { new: true }
     );
 
     return updatedUser
-        ? { message: "OK", updatedUser, status: 200 }
+        ? { message: Tradutor.t("updatedPass200"), status: 200 }
         : { message: Tradutor.t("readUser404"), status: 404 };
 };
+
+// module.exports.dbUpdateUserPassword = async (user) => {
+//     const existingUser = await User.findById(user._id);
+//     if (!existingUser) {
+//         return { message: Tradutor.t("readUser404"), status: 404 };
+//     }
+//     user.senha = await encryptPassword(user.senha);
+
+//     const updatedUser = await User.findByIdAndUpdate(
+//         user._id,
+//         { $set: user, $inc: { __v: 1 } },
+//         { new: true }
+//     );
+
+//     return updatedUser
+//         ? { message: "OK", updatedUser, status: 200 }
+//         : { message: Tradutor.t("readUser404"), status: 404 };
+// };
 
 module.exports.dbDeleteUser = async (id) => {
     const result = await User.deleteOne({ _id: id });
