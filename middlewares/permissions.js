@@ -1,3 +1,5 @@
+const Tradutor = require("../tradutor");
+
 const accessControlList = {
     'Student': ['lerArtigo', 'listaArtigo', 'verPerfil', 'atualizarPerfil'],
     'Teacher': ['lerArtigo', 'listaArtigo', 'criarArtigo', 'atualizarArtigo', 'excluirArtigo', 'verPerfil', 'atualizarPerfil'],
@@ -12,7 +14,7 @@ function authorize(permission) {
       if (permissions.includes(permission)) {
         next();
       } else {
-        res.status(403).json({ message: "Forbidden action: you don't have the appropriate permissions" });
+        res.status(403).json({ message: Tradutor.t('permission403') });
       }
     };
 }

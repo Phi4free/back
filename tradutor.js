@@ -8,6 +8,7 @@ const Tradutor = {
     resources : {
         en: {
             translation: {
+                permission403: "Forbidden action: You don't have the appropriate permissions",
                 error: 'Internal Server Error',
                 updatedEmail200: 'Email updated successfully!',
                 invalidEmail: 'Invalid Email',
@@ -20,6 +21,11 @@ const Tradutor = {
                 createUser404: 'Error creating user, please try again later',
                 emailInUse400: 'This e-mail is already in use',
                 readUser404: 'User not found',
+                property: 'Property',
+                cannotNull: 'cannot be empty',
+                mustOver: 'must be over',
+                mustUnder: 'and under',
+                characters: 'characters',
                 missingProperty: 'Missing required property',
                 noToken: 'No token provided.',
                 tokenFail401: 'Failed to authenticate token.',
@@ -30,6 +36,7 @@ const Tradutor = {
         },
         "pt-BR": {
             translation:{
+                permission403: "Ação proibida: Você não possui as permissões necessárias",
                 error: 'Erro interno do servidor',
                 updatedPass200: "Senha atualizada com sucesso!",
                 updatedEmail200: 'Email atualizado com sucesso!',
@@ -42,7 +49,12 @@ const Tradutor = {
                 createUser404: 'Erro ao criar usuário, por favor tente novamente mais tarde',
                 emailInUse400: 'Este e-mail já está sendo usado',
                 readUser404: 'Usuário não encontrado',
+                property: 'O campo',
+                cannotNull: 'não pode ficar vazio',
                 missingProperty: 'Campo obrigatório vazio',
+                mustOver: 'deve ter entre',
+                mustUnder: 'e',
+                characters: 'caracteres',
                 noToken: 'Nenhum token encontrado',
                 tokenFail401: 'Falha na autenticação do token.',
                 articleAcessDenied403: 'Você não pode acessar este artigo',

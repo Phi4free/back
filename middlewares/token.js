@@ -42,7 +42,7 @@ const verifyAuthor = async (req, res, next) => {
       }
     } catch (error) {
       console.log(error);
-      return res.status(500).send({message: "Internal Server error", status: 500});
+      return res.status(500).send({message: Tradutor.t('error'), status: 500});
     }
 };
 
@@ -61,7 +61,7 @@ const verifyUser = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).send({message: "Internal Server error", status: 500});
+    return res.status(500).send({message: Tradutor.t('error'), status: 500});
   }
 };
 
