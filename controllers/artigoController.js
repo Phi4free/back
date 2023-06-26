@@ -52,7 +52,7 @@ module.exports.listaArtigosGet = async (request, response) => {
         const result = await dbListArticles();
         response
             .status(result.status)
-            .send({ message: result.message, data: result.articles });
+            .send({ message: result.message, data: result.data });
     } catch (error) {
         console.log(error);
         response.status(500).send({ message: Tradutor.t("error") });
