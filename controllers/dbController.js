@@ -45,9 +45,8 @@ module.exports.dbReadArticle = async (id) => {
         ];
 
         let data = await Article.aggregate(pipeline);
-
         return data
-            ? { message: "OK", data, status: 200 }
+            ? { message: "OK", data: data[0], status: 200 }
             : { message: Tradutor.t("readArticle404"), status: 404 };
     } catch (err) {
         const article = undefined;
@@ -141,7 +140,7 @@ module.exports.dbCreateUser = async (user) => {
 
 module.exports.dbReadUser = async (id) => {
     try {
-        const user = await User.findById(id).select(["nome", "role"]); // Retorna somente os campos publicos
+        const user = await User.findById(id).select(["-senha"]);
         return user
             ? { message: "OK", user, status: 200 }
             : { message: Tradutor.t("readUser404"), status: 404 };

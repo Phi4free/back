@@ -24,9 +24,10 @@ module.exports.verPerfilGet = async (request, response) => {
     id = request.query.id;
     try {
         const result = await dbReadUser(id);
+        let {nome, role} = result.user
         response
             .status(result.status)
-            .send({ message: result.message, data: result.user });
+            .send({ message: result.message, data: {nome, role} });
     } catch (error) {
         console.log(error);
         response.status(500).send({ message: Tradutor.t("error") });
