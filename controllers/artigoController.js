@@ -40,7 +40,7 @@ module.exports.lerArtigoGet = async (request, response) => {
         const result = await dbReadArticle(id);
         response
             .status(result.status)
-            .send({ message: result.message, data: result.article });
+            .send({ message: result.message, data: result.data });
     } catch (error) {
         console.log(error);
         response.status(500).send({ message: Tradutor.t("error") });

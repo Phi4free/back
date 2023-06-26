@@ -4,7 +4,8 @@ const {
     validatePassword,
 } = require("../middlewares/encryption");
 const Tradutor = require("../tradutor");
-const { Collection } = require("mongoose");
+const { Collection, default: mongoose } = require("mongoose");
+// var mongoose = require('mongoose');
 
 module.exports.dbCreateArticle = async (article) => {
     const newArticle = new Article(article);
@@ -17,22 +18,46 @@ module.exports.dbCreateArticle = async (article) => {
 
 module.exports.dbReadArticle = async (id) => {
     try {
-        const article = await Article.findById(id);
-        return article
-            ? { message: "OK", article, status: 200 }
+        let _id = new mongoose.Types.ObjectId(id);
+        const pipeline = [
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "autorId",
+                    foreignField: "_id",
+                    as: "nomeAutor",
+                },
+            },
+            {
+                $project: {
+                    _id: 1,
+                    disciplina: 1,
+                    titulo: 1,
+                    conteudo: 1,
+                    dataPub: 1,
+                    autor: "$nomeAutor.nome",
+                },
+            },
+            { $unwind: "$autor" },
+            {
+                $match: { _id },
+            },
+        ];
+
+        let data = await Article.aggregate(pipeline);
+
+        return data
+            ? { message: "OK", data, status: 200 }
             : { message: Tradutor.t("readArticle404"), status: 404 };
     } catch (err) {
         const article = undefined;
         return article
             ? { message: "OK", article, status: 200 }
-            : { message: Tradutor.t("readArticle404"), status: 404 };
+            : { message: Tradutor.t("error"), status: 500 };
     }
 };
 
 module.exports.dbListArticles = async () => {
-    const autores = await User.find({});
-    const articles = await Article.find({});
-
     const pipeline = [
         {
             $lookup: {
@@ -52,23 +77,15 @@ module.exports.dbListArticles = async () => {
                 autor: "$nomeAutor.nome",
             },
         },
-        { $unwind: "$autor" }
+        { $unwind: "$autor" },
     ];
 
     let data = await Article.aggregate(pipeline).exec();
-    console.log(data);
 
     return data
         ? { message: "OK", data, status: 200 }
         : { message: Tradutor.t("listArticle404"), status: 404 };
 };
-
-// module.exports.dbListArticles = async () => {
-//      const articles = await Article.find({});
-//      return articles
-//          ? { message: "OK", articles, status: 200 }
-//          : { message: Tradutor.t("listArticle404"), status: 404 };
-//  };
 
 module.exports.dbUpdateArticle = async (article) => {
     article.dataEdt = Date.now();
