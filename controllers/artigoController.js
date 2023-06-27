@@ -59,20 +59,6 @@ module.exports.listaArtigosGet = async (request, response) => {
     }
 };
 
-module.exports.createArtigoPut = async (request, response, next) => {
-    const artigo = request.body;
-    //artigo.autorId = request.id;
-    try {
-        const result = await dbCreateArticle(artigo);
-        response
-            .status(result.status)
-            .send({ message: result.message, data: result.updatedArticle });
-    } catch (error) {
-        console.log(error);
-        response.status(500).send({ message: Tradutor.t("error") });
-    }
-};
-
 module.exports.updateArtigoPut = async (request, response, next) => {
     const artigo = request.body;
     //artigo.autorId = request.id;
