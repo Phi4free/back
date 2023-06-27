@@ -51,11 +51,11 @@ route.put(
 );
 
 route.put(
-    "/criarAtualizarArtigo",
+    "/criarArtigo",
     token.verifyJWT,
     authorize("atualizarArtigo"),
     token.verifyAuthor,
-    artigoController.createUpdateArtigoPut
+    artigoController.createArtigoPut
 );
 
 route.delete(
