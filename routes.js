@@ -50,6 +50,14 @@ route.put(
     artigoController.updateArtigoPut
 );
 
+route.put(
+    "/criarAtualizarArtigo",
+    token.verifyJWT,
+    authorize("atualizarArtigo"),
+    token.verifyAuthor,
+    artigoController.createUpdateArtigoPut
+);
+
 route.delete(
     "/excluirArtigo/:id",
     token.verifyJWT,

@@ -8,6 +8,11 @@ const Tradutor = {
     resources : {
         en: {
             translation: {
+                Financial: "Financial",
+                Philosophical: "Philosophical",
+                Physical: "Physical",
+                Functional: "Functional",
+                //
                 permission403: "Forbidden action: You don't have the appropriate permissions",
                 error: 'Internal Server Error',
                 updatedEmail200: 'Email updated successfully!',
@@ -36,6 +41,11 @@ const Tradutor = {
         },
         "pt-BR": {
             translation:{
+                Financial: "Financeira",
+                Philosophical: "Filosófica",
+                Physical: "Física",
+                Functional: "Funcional",
+                //
                 permission403: "Ação proibida: Você não possui as permissões necessárias",
                 error: 'Erro interno do servidor',
                 updatedPass200: "Senha atualizada com sucesso!",
