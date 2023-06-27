@@ -86,18 +86,6 @@ module.exports.dbListArticles = async () => {
         : { message: Tradutor.t("listArticle404"), status: 404 };
 };
 
-module.exports.dbCreateArticle = async (article) => {
-    article.dataPub = Date.now();
-    const updatedArticle = await Article.findByIdAndUpdate(
-        article._id,
-        { $set: article, $inc: { __v: 1 } },
-        { new: true }
-    );
-    return updatedArticle
-        ? { message: "OK", updatedArticle, status: 200 }
-        : { message: Tradutor.t("readArticle404"), status: 404 };
-};
-
 module.exports.dbUpdateArticle = async (article) => {
     article.dataEdt = Date.now();
     const updatedArticle = await Article.findByIdAndUpdate(
