@@ -215,8 +215,12 @@ module.exports.dbUpdateUserPassword = async (id, pass) => {
 
 module.exports.dbUpdateUserList = async (userId, articleId) => {
     const existingUser = await User.findById(userId);
+    const existingArticle = await Article.findById(articleId);
     if (!existingUser) {
         return { message: Tradutor.t("readUser404"), status: 404 };
+    }
+    if(!existingArticle){
+        return { message: Tradutor.t("readArticle404"), status: 404 };
     }
     const updatedUser = await User.findByIdAndUpdate(
         userId,

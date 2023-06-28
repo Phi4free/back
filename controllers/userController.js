@@ -17,8 +17,8 @@ const {
 const Tradutor = require("../tradutor");
 
 module.exports.verMeuPerfilGet = async (request, response) => {
-    let { nome, email, role } = request.user;
-    response.status(200).send({ message: 200, data: { nome, email, role } });
+    let { nome, email, role, listaLeitura } = request.user;
+    response.status(200).send({ message: 200, data: { nome, email, role, listaLeitura } });
 };
 
 module.exports.verPerfilGet = async (request, response) => {
