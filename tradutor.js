@@ -10,8 +10,8 @@ const Tradutor = {
             translation: {
                 Financial: "Financial",
                 Philosophical: "Philosophical",
-                Physical: "Physical",
-                Functional: "Functional",
+                Physical: "Fitness",
+                Functional: "Functionalities",
                 //
                 permission403: "Forbidden action: You don't have the appropriate permissions",
                 error: 'Internal Server Error',
@@ -44,8 +44,8 @@ const Tradutor = {
             translation:{
                 Financial: "Financeira",
                 Philosophical: "Filosófica",
-                Physical: "Física",
-                Functional: "Funcional",
+                Physical: "Fitness",
+                Functional: "Funcionalidades",
                 //
                 permission403: "Ação proibida: Você não possui as permissões necessárias",
                 error: 'Erro interno do servidor',
