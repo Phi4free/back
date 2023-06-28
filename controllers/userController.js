@@ -76,6 +76,21 @@ module.exports.atualizarSenhaPut = async (request, response, next) => {
     }
 };
 
+module.exports.atualizarListaPut = async (request, response, next) => {
+    const body = request.body;
+    const user = request.user;
+
+    try {
+        const result = await dbUpdateUserList(user._id, body._id);
+        response
+            .status(result.status)
+            .send({ message: result.message, data: result.updatedUser });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send({ message: Tradutor.t("error") });
+    }
+};
+
 module.exports.criarPerfilPost = async (request, response, next) => {
     const user = request.body;
 
