@@ -5,6 +5,7 @@ const {
     dbListArticles,
     dbUpdateArticle,
     dbDeleteArticle,
+    dbListArticlesAuthor,
 } = require("./dbController");
 
 module.exports.criarArtigoGet = (request, response) => {
@@ -50,6 +51,19 @@ module.exports.lerArtigoGet = async (request, response) => {
 module.exports.listaArtigosGet = async (request, response) => {
     try {
         const result = await dbListArticles();
+        response
+            .status(result.status)
+            .send({ message: result.message, data: result.data });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send({ message: Tradutor.t("error") });
+    }
+};
+
+module.exports.listaArtigosAutorGet = async (request, response) => {
+    const body = request.body
+    try {
+        const result = await dbListArticlesAuthor(body._id);
         response
             .status(result.status)
             .send({ message: result.message, data: result.data });
