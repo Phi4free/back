@@ -79,6 +79,8 @@ route.put("/atualizarEmail", token.verifyJWT, userController.atualizarEmailPut);
 
 route.put("/atualizarSenha", token.verifyJWT, userController.atualizarSenhaPut);
 
+route.put("/atualizarLista", token.verifyJWT, userController.atualizarListaPut);
+
 route.post(
     "/criarPerfil",
     userController.criarPerfilPost,
