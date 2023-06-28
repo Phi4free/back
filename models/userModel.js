@@ -35,8 +35,8 @@ class User {
         return this.numArt;
     }
 
-    get nota() {
-        return this.nota;
+    get notas() {
+        return this.notas;
     }
 
     set id(id) {
