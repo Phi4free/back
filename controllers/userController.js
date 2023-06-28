@@ -5,6 +5,7 @@ const {
     dbDeleteUser,
     dbUpdateUserEmail,
     dbUpdateUserPassword,
+    dbUpdateUserList,
 } = require("./dbController");
 const {
     isUserPopulated,
