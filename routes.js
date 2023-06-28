@@ -42,6 +42,8 @@ route.get("/lerArtigo/:query?", artigoController.lerArtigoGet);
 
 route.get("/listaArtigos", artigoController.listaArtigosGet);
 
+route.get("/listaArtigosAutor", artigoController.listaArtigosAutorGet);
+
 route.put(
     "/atualizarArtigo",
     token.verifyJWT,
