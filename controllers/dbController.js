@@ -238,6 +238,31 @@ module.exports.dbUpdateAddToUserList = async (userId, articleId) => {
         : { message: Tradutor.t("readUser404"), status: 404 };
 };
 
+module.exports.dbUpdateRemoveFromUserList = async (userId, articleId) => {
+    const existingUser = await User.findById(userId);
+    if (!existingUser) {
+        return { message: Tradutor.t("readUser404"), status: 404 };
+    }
+    const existingArticle = await Article.findById(articleId);
+    if(!existingArticle){
+        return { message: Tradutor.t("readArticle404"), status: 404 };
+    }
+    const isArticlePresent = await User.findOne({ _id: userId, listaLeitura: { $in: [articleId] } });
+    if (!isArticlePresent) {
+        return { message: Tradutor.t("articleAlreadyRemoved400"), status: 400 };
+    }
+    const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { $pull: { listaLeitura: articleId }, 
+        $inc: { __v: 1 } },
+        { new: true, useFindAndModify: false }
+    );
+
+    return updatedUser
+        ? { message: Tradutor.t("updatedReadList200"), status: 200 }
+        : { message: Tradutor.t("readUser404"), status: 404 };
+};
+
 // module.exports.dbUpdateUserPassword = async (user) => {
 //     const existingUser = await User.findById(user._id);
 //     if (!existingUser) {
