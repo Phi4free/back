@@ -213,6 +213,23 @@ module.exports.dbUpdateUserPassword = async (id, pass) => {
         : { message: Tradutor.t("readUser404"), status: 404 };
 };
 
+module.exports.dbUpdateUserList = async (userId, articleId) => {
+    const existingUser = await User.findById(userId);
+    if (!existingUser) {
+        return { message: Tradutor.t("readUser404"), status: 404 };
+    }
+    const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { $push: { listaLeitura: articleId }, 
+        $inc: { __v: 1 } },
+        { new: true, useFindAndModify: false }
+    );
+
+    return updatedUser
+        ? { message: Tradutor.t("updatedReadList200"), status: 200 }
+        : { message: Tradutor.t("readUser404"), status: 404 };
+};
+
 // module.exports.dbUpdateUserPassword = async (user) => {
 //     const existingUser = await User.findById(user._id);
 //     if (!existingUser) {
