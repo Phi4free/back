@@ -87,10 +87,12 @@ module.exports.dbListArticles = async () => {
 };
 
 module.exports.dbListArticlesByAuthor = async (autorId) => {
+    let _id = new mongoose.Types.ObjectId(autorId);
+
     const pipeline = [
         {
             $match: {
-                autorId: mongoose.Types.ObjectId(autorId)
+                autorId: _id
             }
         },
         {
