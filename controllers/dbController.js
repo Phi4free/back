@@ -215,12 +215,16 @@ module.exports.dbUpdateUserPassword = async (id, pass) => {
 
 module.exports.dbUpdateAddToUserList = async (userId, articleId) => {
     const existingUser = await User.findById(userId);
-    const existingArticle = await Article.findById(articleId);
     if (!existingUser) {
         return { message: Tradutor.t("readUser404"), status: 404 };
     }
+    const existingArticle = await Article.findById(articleId);
     if(!existingArticle){
         return { message: Tradutor.t("readArticle404"), status: 404 };
+    }
+    const isArticleAlreadyListed = await User.findOne({ _id: userId, listaLeitura: { $in: [articleId] } });
+    if (isArticleAlreadyListed) {
+        return { message: Tradutor.t("articleAlreadyListed400"), status: 400 };
     }
     const updatedUser = await User.findByIdAndUpdate(
         userId,
