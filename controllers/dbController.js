@@ -86,6 +86,41 @@ module.exports.dbListArticles = async () => {
         : { message: Tradutor.t("listArticle404"), status: 404 };
 };
 
+module.exports.dbListArticlesByAuthor = async (autorId) => {
+    const pipeline = [
+        {
+            $match: {
+                autorId: mongoose.Types.ObjectId(autorId)
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "autorId",
+                foreignField: "_id",
+                as: "nomeAutor",
+            },
+        },
+        {
+            $project: {
+                _id: 1,
+                disciplina: 1,
+                titulo: 1,
+                conteudo: 1,
+                dataPub: 1,
+                autor: "$nomeAutor.nome",
+            },
+        },
+        { $unwind: "$autor" },
+    ];
+
+    let data = await Article.aggregate(pipeline).exec();
+
+    return data
+        ? { message: "OK", data, status: 200 }
+        : { message: Tradutor.t("listArticle404"), status: 404 };
+};
+
 module.exports.dbUpdateArticle = async (article) => {
     article.dataEdt = Date.now();
     const updatedArticle = await Article.findByIdAndUpdate(
