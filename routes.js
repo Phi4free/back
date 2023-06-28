@@ -81,6 +81,9 @@ route.put("/atualizarSenha", token.verifyJWT, userController.atualizarSenhaPut);
 
 route.put("/adicionarNaLista", token.verifyJWT, userController.adicionarListaPut);
 
+route.put("/removerDaLista", token.verifyJWT, userController.removerListaPut);
+
+
 route.post(
     "/criarPerfil",
     userController.criarPerfilPost,
