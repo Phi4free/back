@@ -5,7 +5,7 @@ const {
     dbDeleteUser,
     dbUpdateUserEmail,
     dbUpdateUserPassword,
-    dbUpdateUserList,
+    dbUpdateAddToUserList,
 } = require("./dbController");
 const {
     isUserPopulated,
@@ -77,12 +77,12 @@ module.exports.atualizarSenhaPut = async (request, response, next) => {
     }
 };
 
-module.exports.atualizarListaPut = async (request, response, next) => {
+module.exports.adicionarListaPut = async (request, response, next) => {
     const body = request.body;
     const user = request.user;
 
     try {
-        const result = await dbUpdateUserList(user._id, body._id);
+        const result = await dbUpdateAddToUserList(user._id, body._id);
         response
             .status(result.status)
             .send({ message: result.message, data: result.updatedUser });
