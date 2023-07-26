@@ -31,6 +31,7 @@ module.exports.dbReadArticle = async (id) => {
             {
                 $project: {
                     _id: 1,
+                    autorId: 1,
                     disciplina: 1,
                     titulo: 1,
                     conteudo: 1,
